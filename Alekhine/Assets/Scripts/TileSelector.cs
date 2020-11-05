@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TileSelector : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class TileSelector : MonoBehaviour
         this.enabled = true;
     }
 
-    void Update() {
+    void Update()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, IPointerClickHandler
+{
     public static GameManager instance;
 
     public Board board;
@@ -30,6 +32,12 @@ public class GameManager : MonoBehaviour {
     void Awake() {
         instance = this;
     }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        Debug.Log("Yep that worked 2");
+    }
+
 
     void Start () {
         pieces = new GameObject[8, 8];
