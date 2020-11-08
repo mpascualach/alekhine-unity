@@ -24,7 +24,7 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     public abstract List<Vector2Int> MoveLocations(Vector2Int gridPoint);
 
     public void OnPointerClick(PointerEventData pointerEventData) {
-        Debug.Log("Yep that worked");
+        Debug.Log("Yep that worked" + pointerEventData);
     }
 
 }

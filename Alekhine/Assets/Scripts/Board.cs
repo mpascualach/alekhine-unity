@@ -8,11 +8,14 @@ public class Board : MonoBehaviour {
 
     public GameObject selectedPiece;
 
-    public GameObject AddPiece(GameObject piece, int col, int row) {
-        Vector2Int gridPoint = Geometry.GridPoint(col, row);
+    public GameObject[,] rows;
 
-        GameObject newPiece = Instantiate(piece, Geometry.PointFromGrid(gridPoint), Quaternion.identity, gameObject.transform);
-        return newPiece;
+    public GameObject AddPiece(GameObject piece, int col, int row) {
+        //Vector2Int gridPoint = Geometry.GridPoint(col, row);
+
+        //GameObject newPiece = Instantiate(piece, Geometry.PointFromGrid(gridPoint), Quaternion.identity, gameObject.transform);
+        return piece;
+        //return newPiece;
     }
 
     public void RemovePiece(GameObject piece) {
