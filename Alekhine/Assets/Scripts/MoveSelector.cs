@@ -26,20 +26,14 @@ public class MoveSelector : MonoBehaviour
 
         moveLocations = GameManager.instance.MovesForPiece(movingPiece);
 
-        foreach (Vector2Int loc in moveLocations)
-        {
+        foreach(Vector2Int location in moveLocations) {
             GameObject highlight;
-            if (GameManager.instance.PieceAtGrid(loc))
-            {
-                highlight = Instantiate(attackLocationPrefab, Geometry.PointFromGrid(loc),
-                    Quaternion.identity, gameObject.transform);
-            }
-            else
-            {
-                highlight = Instantiate(moveLocationPrefab, Geometry.PointFromGrid(loc),
-                    Quaternion.identity, gameObject.transform);
-            }
-            locationHighlights.Add(highlight);
+
+            Vector3 highlightPosition = Geometry.LocateSquare(location.y, location.x);
+
+            GameObject locationType = GameManager.instance.PieceAtGrid(location) ? attackLocationPrefab : moveLocationPrefab;
+
+            highlight = Instantiate(attackLocationPrefab, highlightPosition, Quaternion.identity, gameObject.transform);
         }
     }
 
@@ -82,8 +76,8 @@ public class MoveSelector : MonoBehaviour
             Destroy(highlight);
         }
 
-        TileSelector selector = GetComponent<TileSelector>();
-        selector.EnterState();
+        //TileSelector selector = GetComponent<TileSelector>();
+        //selector.EnterState();
     }
 
 

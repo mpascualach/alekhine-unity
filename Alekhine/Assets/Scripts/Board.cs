@@ -8,14 +8,13 @@ public class Board : MonoBehaviour {
 
     public GameObject selectedPiece;
 
-    public GameObject[,] rows;
+    MoveSelector selector;
 
     public GameObject AddPiece(GameObject piece, int col, int row) {
-        //Vector2Int gridPoint = Geometry.GridPoint(col, row);
+        Vector3 position = transform.GetChild(row).transform.GetChild(col).transform.position;
 
-        //GameObject newPiece = Instantiate(piece, Geometry.PointFromGrid(gridPoint), Quaternion.identity, gameObject.transform);
-        return piece;
-        //return newPiece;
+        GameObject newPiece = Instantiate(piece, position, Quaternion.identity, gameObject.transform);
+        return newPiece;
     }
 
     public void RemovePiece(GameObject piece) {
@@ -35,14 +34,23 @@ public class Board : MonoBehaviour {
         MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
         renderers.material = selectedMaterial;
 
-        TileSelector selector = GetComponent<TileSelector>();
-        selector.ExitState(piece);
+        if (selectedPiece)
+        {
+            DeselectPiece(selectedPiece);
+        }
+
+        selector = GetComponent<MoveSelector>();
+        selector.EnterState(piece);
+        selectedPiece = piece;
     }
 
     public void DeselectPiece(GameObject piece) {
         MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
 
-        renderers.material = GameManager.instance.currentPlayer.name == "white" ? defaultMaterialWhite :defaultMaterialBlack;
+        renderers.material = GameManager.instance.currentPlayer.name == "white" ? defaultMaterialWhite : defaultMaterialBlack;
+
+        selector = GetComponent<MoveSelector>();
+        selector.ExitState();
 
         selectedPiece = null;
     }

@@ -5,14 +5,20 @@ public class Geometry : MonoBehaviour
     public float separation;
     public float startingPoint;
 
-    static private Vector3 FindBoard()
+    static public Transform FindBoard()
     {
-        return GameObject.Find("Chessboard").transform.position;
+        return GameObject.Find("Chessboard").transform;
     }
+
+    static public Vector3 LocateSquare(int row, int col)
+    {
+        return FindBoard().GetChild(row).transform.GetChild(col).transform.position;
+    }
+
 
     static public Vector3 PointFromGrid(Vector2Int gridPoint)
     {
-        Vector3 boardPosition = FindBoard();
+        Vector3 boardPosition = FindBoard().position;
         float x = -3.5f + boardPosition.x + gridPoint.x;
         float z = -3.5f + boardPosition.z + gridPoint.y;
 
@@ -26,7 +32,7 @@ public class Geometry : MonoBehaviour
 
     static public Vector2Int GridFromPoint(Vector3 point)
     {
-        Vector3 boardPosition = FindBoard();
+        Vector3 boardPosition = FindBoard().position;
 
         int col = Mathf.FloorToInt(-6.0f + boardPosition.x + point.x);
         int row = Mathf.FloorToInt(6.0f + boardPosition.z + point.z);

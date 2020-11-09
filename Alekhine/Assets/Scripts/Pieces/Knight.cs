@@ -5,6 +5,17 @@ public class Knight : Piece
 {
     public override List<Vector2Int> MoveLocations(Vector2Int gridPoint)
     {
-        return new List<Vector2Int>(KnightDirections);
+        List<Vector2Int> knightMoves = new List<Vector2Int>();
+
+        foreach(var move in KnightDirections) {
+            Vector2Int knightMove = new Vector2Int(gridPoint.x + move.x, gridPoint.y + move.y);
+            knightMoves.Add(knightMove);
+        }
+
+        foreach(var move in knightMoves) {
+            Debug.Log("Knight move: " + move);
+        }
+
+        return knightMoves;
     }
 }

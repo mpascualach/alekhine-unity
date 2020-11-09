@@ -18,13 +18,13 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
 
     protected Vector2Int[] KnightDirections = {new Vector2Int(-1,2), new Vector2Int(1, 2),
         new Vector2Int(2, 1), new Vector2Int(2, -1), new Vector2Int(1,-2),
-        new Vector2Int(-1,-2), new Vector2Int(1,-2), new Vector2Int(-2, 1)};
-
+        new Vector2Int(-1,-2), new Vector2Int(-2, -1), new Vector2Int(-2, -1)};
 
     public abstract List<Vector2Int> MoveLocations(Vector2Int gridPoint);
 
     public void OnPointerClick(PointerEventData pointerEventData) {
-        Debug.Log("Yep that worked" + pointerEventData);
+        Debug.Log("Selected a: " + type);
+        GameManager.instance.SelectPiece(gameObject);
     }
 
 }

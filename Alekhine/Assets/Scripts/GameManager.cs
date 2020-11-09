@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GameManager : MonoBehaviour, IPointerClickHandler
+public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
@@ -33,12 +33,6 @@ public class GameManager : MonoBehaviour, IPointerClickHandler
         instance = this;
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
-    {
-        Debug.Log("Yep that worked 2");
-    }
-
-
     void Start () {
         pieces = new GameObject[8, 8];
 
@@ -48,37 +42,38 @@ public class GameManager : MonoBehaviour, IPointerClickHandler
         currentPlayer = white;
         otherPlayer = black;
 
-        InitialSetup();
+        SetBoardUp();
     }
 
-    private void InitialSetup() {
+    private void SetBoardUp() {
         AddPiece(whiteRook, white, 0, 0);
-        //AddPiece(whiteKnight, white, 1, 0);
-        //AddPiece(whiteBishop, white, 2, 0);
-        //AddPiece(whiteQueen, white, 3, 0);
-        //AddPiece(whiteKing, white, 4, 0);
-        //AddPiece(whiteBishop, white, 5, 0);
-        //AddPiece(whiteKnight, white, 6, 0);
-        //AddPiece(whiteRook, white, 7, 0);
+        AddPiece(whiteKnight, white, 1, 0);
+        AddPiece(whiteBishop, white, 2, 0);
+        AddPiece(whiteQueen, white, 3, 0);
+        AddPiece(whiteKing, white, 4, 0);
+        AddPiece(whiteBishop, white, 5, 0);
+        AddPiece(whiteKnight, white, 6, 0);
+        AddPiece(whiteRook, white, 7, 0);
 
-        //for (int i = 0; i < 8; i++)
-        //{
-        //    AddPiece(whitePawn, white, i, 1);
-        //}
+        for (int i = 0; i < 8; i++)
+        {
+            AddPiece(whitePawn, white, i, 1);
+        }
 
-        //AddPiece(blackRook, black, 0, 7);
-        //AddPiece(blackKnight, black, 1, 7);
-        //AddPiece(blackBishop, black, 2, 7);
-        //AddPiece(blackQueen, black, 3, 7);
-        //AddPiece(blackKing, black, 4, 7);
-        //AddPiece(blackBishop, black, 5, 7);
-        //AddPiece(blackKnight, black, 6, 7);
-        //AddPiece(blackRook, black, 7, 7);
+        AddPiece(blackRook, black, 0, 7);
+        AddPiece(blackKnight, black, 1, 7);
+        AddPiece(blackBishop, black, 2, 7);
+        AddPiece(blackQueen, black, 3, 7);
+        AddPiece(blackKing, black, 4, 7);
+        AddPiece(blackBishop, black, 5, 7);
+        AddPiece(blackKnight, black, 6, 7);
+        AddPiece(blackRook, black, 7, 7);
 
-        //for (int i = 0; i < 8; i++)
-        //{
-        //    AddPiece(blackPawn, black, i, 6);
-        //}
+        for (int i = 0; i < 8; i++)
+        {
+            AddPiece(blackPawn, black, i, 6);
+        }
+
     }
 
     public void AddPiece(GameObject prefab, Player player, int col, int row) {
@@ -146,14 +141,15 @@ public class GameManager : MonoBehaviour, IPointerClickHandler
     }
 
     public void Move(GameObject piece, Vector2Int gridPoint) {
-        GameObject otherPiece = PieceAtGrid(gridPoint);
-
         Vector2Int startGridPoint = GridForPiece(piece);
 
         pieces[startGridPoint.x, startGridPoint.y] = null;
         pieces[gridPoint.x, gridPoint.y] = piece;
 
         board.MovePiece(piece, gridPoint);
+
+        Piece pieceScript = piece.GetComponent<Piece>();
+        pieceScript.moved = true;
 
         NextPlayer();
     }
