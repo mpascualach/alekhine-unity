@@ -1,23 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MoveSelector : MonoBehaviour
+public class MoveSelector : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject moveLocationPrefab;
-    public GameObject tileHighlightPrefab;
-    public GameObject attackLocationPrefab;
+    public Material moveLocationMaterial;
+    public Material attackLocationMaterial;
 
-    private GameObject tileHighlight;
     private GameObject movingPiece;
 
     private List<Vector2Int> moveLocations = new List<Vector2Int>();
-    private List<GameObject> locationHighlights = new List<GameObject>();
 
     void Start() {
         this.enabled = false;
-        tileHighlight = Instantiate(tileHighlightPrefab, Geometry.PointFromGrid(new Vector2Int(0, 0)), Quaternion.identity, gameObject.transform);
-        tileHighlight.SetActive(false);
     }
 
     public void EnterState(GameObject piece) {
@@ -26,58 +23,61 @@ public class MoveSelector : MonoBehaviour
 
         moveLocations = GameManager.instance.MovesForPiece(movingPiece);
 
-        foreach(Vector2Int location in moveLocations) {
-            GameObject highlight;
+        HighlightSquares(moveLocations, true);
+    }
 
-            Vector3 highlightPosition = Geometry.LocateSquare(location.y, location.x);
+    public void HighlightSquares(List<Vector2Int> locations, bool highlighting) {
+        foreach (Vector2Int location in locations)
+        {
+            GameObject square = gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
 
-            GameObject locationType = GameManager.instance.PieceAtGrid(location) ? attackLocationPrefab : moveLocationPrefab;
+            Material locationType = highlighting ?
+                        GameManager.instance.PieceAtGrid(location) ?
+                        attackLocationMaterial :
+                        moveLocationMaterial :
+                    square.GetComponent<Renderer>().materials[0];
 
-            highlight = Instantiate(attackLocationPrefab, highlightPosition, Quaternion.identity, gameObject.transform);
+            ManageMaterials(square, locationType);
         }
     }
 
-    void Update() {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) {
-            Vector3 point = hit.point;
-            Vector2Int gridPoint = Geometry.GridFromPoint(point);
+    public void ManageMaterials(GameObject square, Material target) {
+        Material[] materials = square.GetComponent<MeshRenderer>().materials;
+        materials[1] = target;
+        square.GetComponent<MeshRenderer>().materials = materials;
+    }
 
-            tileHighlight.SetActive(true);
-            tileHighlight.transform.position = Geometry.PointFromGrid(gridPoint);
-            if (Input.GetMouseButtonDown(0)) {
-                if (moveLocations.Contains(gridPoint)) {
-                    if (GameManager.instance.PieceAtGrid(gridPoint))
-                    {
-                        GameManager.instance.CapturePieceAt(gridPoint);
-                    }
-                    GameManager.instance.Move(movingPiece, gridPoint);
-                }
 
-                if (moveLocations.Count > 0 && !moveLocations.Contains(gridPoint)) {
-                    return;
-                }
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        foreach(GameObject element in pointerEventData.hovered) {
+            if (element.tag == "Square") {
+                int squareIndex = element.transform.GetSiblingIndex();
+                int rowIndex = element.transform.parent.transform.GetSiblingIndex();
 
-                ExitState();
+                Vector2Int coordinate = new Vector2Int(squareIndex, rowIndex);
+
+                ExecuteMove(element, coordinate);
             }
-        } else {
-            tileHighlight.SetActive(false);
         }
     }
+
+    public void ExecuteMove(GameObject element, Vector2Int gridPoint) {
+        if (moveLocations.Contains(gridPoint)) {
+            GameManager.instance.Move(movingPiece, element.transform.position, gridPoint);
+        }
+    }
+
 
     public void ExitState() {
         this.enabled = false;
-        tileHighlight.SetActive(false);
 
-        foreach (GameObject highlight in locationHighlights)
+        foreach (Vector2Int location in moveLocations)
         {
-            Destroy(highlight);
+            GameObject square = Geometry.FindSquare(location);
+            ManageMaterials(square, square.GetComponent<Renderer>().materials[0]);
         }
-
-        //TileSelector selector = GetComponent<TileSelector>();
-        //selector.EnterState();
     }
 
 

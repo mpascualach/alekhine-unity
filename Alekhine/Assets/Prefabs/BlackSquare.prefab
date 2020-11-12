@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1632806991020405661}
   m_Layer: 0
   m_Name: BlackSquare
-  m_TagString: Black
+  m_TagString: Square
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,6 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 7cdca15e293174ae5878c7d2ed1734ea, type: 2}
   - {fileID: 2100000, guid: 7cdca15e293174ae5878c7d2ed1734ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

@@ -10,11 +10,10 @@ public class Geometry : MonoBehaviour
         return GameObject.Find("Chessboard").transform;
     }
 
-    static public Vector3 LocateSquare(int row, int col)
+    static public GameObject FindSquare(Vector2Int location)
     {
-        return FindBoard().GetChild(row).transform.GetChild(col).transform.position;
+        return FindBoard().transform.GetChild(location.y).GetChild(location.x).gameObject;
     }
-
 
     static public Vector3 PointFromGrid(Vector2Int gridPoint)
     {

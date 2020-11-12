@@ -80,17 +80,19 @@ public class GameManager : MonoBehaviour
         GameObject pieceObject = board.AddPiece(prefab, col, row);
         player.pieces.Add(pieceObject);
         pieces[col, row] = pieceObject;
+
+        SetPiecePosition(pieceObject, new Vector2Int(col, row));
     }
 
-    public void SelectPieceAtGrid(Vector2Int gridPoint) {
-        GameObject selectedPiece = pieces[gridPoint.x, gridPoint.y];
-        if (selectedPiece) {
-            board.SelectPiece(selectedPiece);
-        }
-    }
+    //public void SelectPieceAtGrid(Vector2Int gridPoint) {
+    //    GameObject selectedPiece = pieces[gridPoint.x, gridPoint.y];
+    //    if (selectedPiece) {
+    //        board.SelectPiece(selectedPiece);
+    //    }
+    //}
 
     public void SelectPiece(GameObject piece) {
-        board.SelectPiece(piece);
+       board.SelectPiece(piece);
     }
 
     public void DeselectPiece(GameObject piece) {
@@ -136,21 +138,28 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    private void SetPiecePosition(GameObject pieceObject, Vector2Int gridPoint) {
+        pieceObject.GetComponent<Piece>().position = gridPoint;
+    }
+
     public bool DoesPieceBelongToCurrentPlayer(GameObject piece) {
         return currentPlayer.pieces.Contains(piece);
     }
 
-    public void Move(GameObject piece, Vector2Int gridPoint) {
+    public void Move(GameObject piece, Vector3 position, Vector2Int gridPoint) {
+        if (PieceAtGrid(gridPoint)) {
+            CapturePieceAt(gridPoint);
+        }
+
         Vector2Int startGridPoint = GridForPiece(piece);
 
         pieces[startGridPoint.x, startGridPoint.y] = null;
+        pieces[gridPoint.x, gridPoint.y] = null;
+
+        SetPiecePosition(piece, gridPoint);
+
         pieces[gridPoint.x, gridPoint.y] = piece;
-
-        board.MovePiece(piece, gridPoint);
-
-        Piece pieceScript = piece.GetComponent<Piece>();
-        pieceScript.moved = true;
-
+        board.MovePiece(piece, position);
         NextPlayer();
     }
 
@@ -164,9 +173,14 @@ public class GameManager : MonoBehaviour
 
         locations.RemoveAll(tile => FriendlyPieceAt(tile));
 
-
         return locations;
     }
+
+    public bool isOtherPlayerInCheck(List<Vector2Int> locations) {
+        //return locations.Where(location => PieceAtGrid(location) && PieceAtGrid(location).GetComponent<Piece>().type == "King").Length;
+        return true;
+    }
+
 
     public void NextPlayer() {
         Player tempPlayer = currentPlayer;

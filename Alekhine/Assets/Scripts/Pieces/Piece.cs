@@ -8,7 +8,13 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
 {
     public PieceType type;
 
+    public Vector2Int position;
     public bool moved;
+
+    private Vector3 screenPoint;
+    private Vector3 offset;
+
+    MoveSelector selector;
 
     protected Vector2Int[] RookDirections = {new Vector2Int(0,1), new Vector2Int(1, 0), 
         new Vector2Int(0, -1), new Vector2Int(-1, 0)};
@@ -23,7 +29,6 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     public abstract List<Vector2Int> MoveLocations(Vector2Int gridPoint);
 
     public void OnPointerClick(PointerEventData pointerEventData) {
-        Debug.Log("Selected a: " + type);
         GameManager.instance.SelectPiece(gameObject);
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Board : MonoBehaviour {
 
@@ -17,12 +18,8 @@ public class Board : MonoBehaviour {
         return newPiece;
     }
 
-    public void RemovePiece(GameObject piece) {
-        Destroy(piece);
-    }
-
-    public void MovePiece(GameObject piece, Vector2Int gridPoint) {
-        piece.transform.position = Geometry.PointFromGrid(gridPoint);
+    public void MovePiece(GameObject piece, Vector3 position) {
+        piece.transform.position = position;
 
         Piece pieceObject = piece.GetComponent<Piece>();
         pieceObject.moved = true;
@@ -31,17 +28,28 @@ public class Board : MonoBehaviour {
     }
 
     public void SelectPiece(GameObject piece) {
-        MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
-        renderers.material = selectedMaterial;
+        if (GameManager.instance.DoesPieceBelongToCurrentPlayer(piece)) {
+            if (selectedPiece) DeselectPiece(selectedPiece);
 
-        if (selectedPiece)
+            MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
+            renderers.material = selectedMaterial;
+            selectedPiece = piece;
+
+            selector = GetComponent<MoveSelector>();
+            selector.EnterState(piece);
+        } else if (selectedPiece)
         {
-            DeselectPiece(selectedPiece);
-        }
+            List<Vector2Int> moveLocations = GameManager.instance.MovesForPiece(selectedPiece);
+            Piece pieceScript = piece.GetComponent<Piece>();
 
-        selector = GetComponent<MoveSelector>();
-        selector.EnterState(piece);
-        selectedPiece = piece;
+            Vector2Int piecePosition = pieceScript.position;
+
+            if (moveLocations.Contains(piecePosition)) {
+                GameObject square = Geometry.FindSquare(piecePosition);
+                GameManager.instance.Move(selectedPiece, square.transform.position, pieceScript.position);
+            }
+
+        }
     }
 
     public void DeselectPiece(GameObject piece) {

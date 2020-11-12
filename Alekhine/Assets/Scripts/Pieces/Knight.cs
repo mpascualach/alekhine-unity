@@ -12,10 +12,6 @@ public class Knight : Piece
             knightMoves.Add(knightMove);
         }
 
-        foreach(var move in knightMoves) {
-            Debug.Log("Knight move: " + move);
-        }
-
         return knightMoves;
     }
 }
