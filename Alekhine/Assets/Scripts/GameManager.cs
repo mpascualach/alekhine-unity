@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
         otherPlayer = black;
 
         SetBoardUp();
+
+
     }
 
     private void SetBoardUp() {
@@ -84,12 +86,29 @@ public class GameManager : MonoBehaviour
         SetPiecePosition(pieceObject, new Vector2Int(col, row));
     }
 
-    //public void SelectPieceAtGrid(Vector2Int gridPoint) {
-    //    GameObject selectedPiece = pieces[gridPoint.x, gridPoint.y];
-    //    if (selectedPiece) {
-    //        board.SelectPiece(selectedPiece);
-    //    }
-    //}
+    public List<Vector2Int> MovesForPiece(GameObject pieceObject)
+    {
+        Piece piece = pieceObject.GetComponent<Piece>();
+        Vector2Int gridPoint = GridForPiece(pieceObject);
+        var locations = piece.MoveLocations(gridPoint);
+
+        locations.RemoveAll(tile => tile.x < 0 || tile.x > 7
+            || tile.y < 0 || tile.y > 7);
+
+        locations.RemoveAll(tile => FriendlyPieceAt(tile));
+
+        if (locations.Find(location => IsOpposingKingOnThisSquare(location)) != null) {
+            otherPlayer.inCheck = true;
+        }
+
+        return locations;
+    }
+
+    public bool IsOpposingKingOnThisSquare(Vector2Int gridPoint)
+    {
+        GameObject targetPiece = PieceAtGrid(gridPoint);
+        return targetPiece && targetPiece.GetComponent<Piece>().type == PieceType.King;
+    }
 
     public void SelectPiece(GameObject piece) {
        board.SelectPiece(piece);
@@ -160,33 +179,16 @@ public class GameManager : MonoBehaviour
 
         pieces[gridPoint.x, gridPoint.y] = piece;
         board.MovePiece(piece, position);
+
         NextPlayer();
     }
-
-    public List<Vector2Int> MovesForPiece(GameObject pieceObject) {
-        Piece piece = pieceObject.GetComponent<Piece>();
-        Vector2Int gridPoint = GridForPiece(pieceObject);
-        var locations = piece.MoveLocations(gridPoint);
-
-        locations.RemoveAll(tile => tile.x < 0 || tile.x > 7
-            || tile.y < 0 || tile.y > 7);
-
-        locations.RemoveAll(tile => FriendlyPieceAt(tile));
-
-        return locations;
-    }
-
-    public bool isOtherPlayerInCheck(List<Vector2Int> locations) {
-        //return locations.Where(location => PieceAtGrid(location) && PieceAtGrid(location).GetComponent<Piece>().type == "King").Length;
-        return true;
-    }
-
 
     public void NextPlayer() {
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
     }
+
 
     public void CapturePieceAt(Vector2Int gridPoint) {
         GameObject pieceToCapture = PieceAtGrid(gridPoint);

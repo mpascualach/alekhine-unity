@@ -18,15 +18,6 @@ public class Board : MonoBehaviour {
         return newPiece;
     }
 
-    public void MovePiece(GameObject piece, Vector3 position) {
-        piece.transform.position = position;
-
-        Piece pieceObject = piece.GetComponent<Piece>();
-        pieceObject.moved = true;
-
-        DeselectPiece(piece);
-    }
-
     public void SelectPiece(GameObject piece) {
         if (GameManager.instance.DoesPieceBelongToCurrentPlayer(piece)) {
             if (selectedPiece) DeselectPiece(selectedPiece);
@@ -37,8 +28,7 @@ public class Board : MonoBehaviour {
 
             selector = GetComponent<MoveSelector>();
             selector.EnterState(piece);
-        } else if (selectedPiece)
-        {
+        } else if (selectedPiece) {
             List<Vector2Int> moveLocations = GameManager.instance.MovesForPiece(selectedPiece);
             Piece pieceScript = piece.GetComponent<Piece>();
 
@@ -50,6 +40,16 @@ public class Board : MonoBehaviour {
             }
 
         }
+    }
+
+    public void MovePiece(GameObject piece, Vector3 position)
+    {
+        piece.transform.position = position;
+
+        Piece pieceObject = piece.GetComponent<Piece>();
+        pieceObject.moved = true;
+
+        DeselectPiece(piece);
     }
 
     public void DeselectPiece(GameObject piece) {

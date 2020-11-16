@@ -11,11 +11,6 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     public Vector2Int position;
     public bool moved;
 
-    private Vector3 screenPoint;
-    private Vector3 offset;
-
-    MoveSelector selector;
-
     protected Vector2Int[] RookDirections = {new Vector2Int(0,1), new Vector2Int(1, 0), 
         new Vector2Int(0, -1), new Vector2Int(-1, 0)};
 

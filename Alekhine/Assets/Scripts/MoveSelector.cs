@@ -69,7 +69,6 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
         }
     }
 
-
     public void ExitState() {
         this.enabled = false;
 

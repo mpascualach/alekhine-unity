@@ -20,35 +20,6 @@ public class TileSelector : MonoBehaviour
         this.enabled = true;
     }
 
-    void Update()
-    {
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        //RaycastHit hit;
-        //if (Physics.Raycast(ray, out hit))
-        //{
-        //    Vector3 point = hit.point;
-        //    Vector2Int gridPoint = Geometry.GridFromPoint(point);
-
-        //    tileHighlight.SetActive(true);
-        //    tileHighlight.transform.position = Geometry.PointFromGrid(gridPoint);
-
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        GameObject selectedPiece = GameManager.instance.PieceAtGrid(gridPoint);
-        //        if (GameManager.instance.DoesPieceBelongToCurrentPlayer(selectedPiece))
-        //        {
-        //            GameManager.instance.SelectPiece(selectedPiece);
-        //            ExitState(selectedPiece);
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    tileHighlight.SetActive(false);
-        //}
-    }
-
     public void ExitState(GameObject movingPiece) {
         this.enabled = false;
         tileHighlight.SetActive(false);
