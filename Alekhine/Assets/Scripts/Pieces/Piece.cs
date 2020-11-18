@@ -24,7 +24,19 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     public abstract List<Vector2Int> MoveLocations(Vector2Int gridPoint);
 
     public void OnPointerClick(PointerEventData pointerEventData) {
+        SelectPiece();
+        // only own pieces
+        // disable other controller
+    }
+
+    public void OnGrab() {
+        SelectPiece();
+    }
+
+    private void SelectPiece() {
         GameManager.instance.SelectPiece(gameObject);
     }
+
+
 
 }
