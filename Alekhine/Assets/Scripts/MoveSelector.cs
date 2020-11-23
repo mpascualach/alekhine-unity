@@ -74,10 +74,9 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
 
         foreach (Vector2Int location in moveLocations)
         {
-            GameObject square = Geometry.FindSquare(location);
+            GameObject square = gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
             ManageMaterials(square, square.GetComponent<Renderer>().materials[0]);
         }
     }
-
 
 }

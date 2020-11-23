@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
 
     private GameObject[,] pieces;
 
+    public GameObject capturedPiecesWhite;
+    public GameObject capturedPiecesBlack;
+
+    public Material defaultWhite;
+    public Material defaultBlack;
+
     private Player white;
     private Player black;
     public Player currentPlayer;
@@ -43,71 +49,96 @@ public class GameManager : MonoBehaviour
         otherPlayer = black;
 
         SetBoardUp();
-
-
     }
 
     private void SetBoardUp() {
-        AddPiece(whiteRook, white, 0, 0);
-        AddPiece(whiteKnight, white, 1, 0);
-        AddPiece(whiteBishop, white, 2, 0);
-        AddPiece(whiteQueen, white, 3, 0);
+        //AddPiece(whiteRook, white, 0, 0);
+        //AddPiece(whiteKnight, white, 1, 0);
+        //AddPiece(whiteBishop, white, 2, 0);
+        //AddPiece(whiteQueen, white, 3, 0);
         AddPiece(whiteKing, white, 4, 0);
-        AddPiece(whiteBishop, white, 5, 0);
-        AddPiece(whiteKnight, white, 6, 0);
-        AddPiece(whiteRook, white, 7, 0);
+        //AddPiece(whiteBishop, white, 5, 0);
+        //AddPiece(whiteKnight, white, 6, 0);
+        //AddPiece(whiteRook, white, 7, 0);
 
-        for (int i = 0; i < 8; i++)
-        {
-            AddPiece(whitePawn, white, i, 1);
-        }
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    AddPiece(whitePawn, white, i, 1);
+        //}
 
-        AddPiece(blackRook, black, 0, 7);
-        AddPiece(blackKnight, black, 1, 7);
-        AddPiece(blackBishop, black, 2, 7);
-        AddPiece(blackQueen, black, 3, 7);
-        AddPiece(blackKing, black, 4, 7);
-        AddPiece(blackBishop, black, 5, 7);
-        AddPiece(blackKnight, black, 6, 7);
-        AddPiece(blackRook, black, 7, 7);
+        //AddPiece(blackRook, black, 0, 7);
+        //AddPiece(blackKnight, black, 1, 7);
+        //AddPiece(blackBishop, black, 2, 7);
+        //AddPiece(blackQueen, black, 3, 7);
+        AddPiece(blackQueen, black, 4, 7);
+        //AddPiece(blackKing, black, 4, 7);
+        //AddPiece(blackBishop, black, 5, 7);
+        //AddPiece(blackKnight, black, 6, 7);
+        //AddPiece(blackRook, black, 7, 7);
 
-        for (int i = 0; i < 8; i++)
-        {
-            AddPiece(blackPawn, black, i, 6);
-        }
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    AddPiece(blackPawn, black, i, 6);
+        //}
 
+        // CheckAllMoves(currentPlayer, otherPlayer);
+        CheckPlayerMoves(otherPlayer, true);
     }
 
-    public void AddPiece(GameObject prefab, Player player, int col, int row) {
-        GameObject pieceObject = board.AddPiece(prefab, col, row);
+    public void AddPiece(GameObject prefab, Player player, int col, int row)
+    {
+        GameObject pieceObject = board.AddPiece(prefab, player, col, row);
+        Piece pieceScript = pieceObject.GetComponent<Piece>();
+        pieceScript.player = player;
         player.pieces.Add(pieceObject);
+
+        if (pieceScript.type == PieceType.King)
+        {
+            player.king = pieceObject;
+        }
         pieces[col, row] = pieceObject;
 
         SetPiecePosition(pieceObject, new Vector2Int(col, row));
     }
 
+    private void SetPiecePosition(GameObject pieceObject, Vector2Int gridPoint)
+    {
+        pieceObject.GetComponent<Piece>().position = gridPoint;
+    }
+
+    private void CheckAllMoves()
+    {
+        currentPlayer.inCheck = false;
+        otherPlayer.inCheck = false;
+
+        CheckPlayerMoves(otherPlayer, false);
+        CheckPlayerMoves(currentPlayer, true);
+    }
+
+    private void CheckPlayerMoves(Player player, bool checkingCurrentPlayer)
+    {
+        foreach (GameObject piece in player.pieces)
+        {
+            MovesForPiece(piece);
+            if (!checkingCurrentPlayer && currentPlayer.inCheck)
+            {
+                // illegal move - fall back
+            }
+        }
+    }
+
     public List<Vector2Int> MovesForPiece(GameObject pieceObject)
     {
         Piece piece = pieceObject.GetComponent<Piece>();
-        Vector2Int gridPoint = GridForPiece(pieceObject);
-        var locations = piece.MoveLocations(gridPoint);
+
+        var locations = piece.MoveLocations(piece.position);
 
         locations.RemoveAll(tile => tile.x < 0 || tile.x > 7
             || tile.y < 0 || tile.y > 7);
 
         locations.RemoveAll(tile => FriendlyPieceAt(tile));
 
-        if (locations.Find(location => IsOpposingKingOnThisSquare(location)) != null) {
-            otherPlayer.inCheck = true;
-        }
-
         return locations;
-    }
-
-    public bool IsOpposingKingOnThisSquare(Vector2Int gridPoint)
-    {
-        GameObject targetPiece = PieceAtGrid(gridPoint);
-        return targetPiece && targetPiece.GetComponent<Piece>().type == PieceType.King;
     }
 
     public void SelectPiece(GameObject piece) {
@@ -122,7 +153,8 @@ public class GameManager : MonoBehaviour
         if (!SquareIsInBounds(gridPoint)) {
             return null;
         }
-        return pieces[gridPoint.x, gridPoint.y];
+        GameObject otherPiece = pieces[gridPoint.x, gridPoint.y];
+        return otherPiece;
     }
 
     public bool SquareIsInBounds(Vector2Int gridPoint) {
@@ -130,17 +162,6 @@ public class GameManager : MonoBehaviour
             return false;
         }
         return true;
-    }
-
-    public Vector2Int GridForPiece(GameObject piece) {
-        for (int i = 0; i < 8; i++)  {
-            for (int j = 0; j < 8; j++) {
-                if (pieces[i, j] == piece) {
-                    return new Vector2Int(i, j);
-                }
-            }
-        }
-        return new Vector2Int(-1, -1);
     }
 
     public bool FriendlyPieceAt(Vector2Int gridPoint) {
@@ -157,10 +178,6 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private void SetPiecePosition(GameObject pieceObject, Vector2Int gridPoint) {
-        pieceObject.GetComponent<Piece>().position = gridPoint;
-    }
-
     public bool DoesPieceBelongToCurrentPlayer(GameObject piece) {
         return currentPlayer.pieces.Contains(piece);
     }
@@ -170,10 +187,12 @@ public class GameManager : MonoBehaviour
             CapturePieceAt(gridPoint);
         }
 
-        Vector2Int startGridPoint = GridForPiece(piece);
+        Vector2Int startGridPoint = piece.GetComponent<Piece>().position;
 
         pieces[startGridPoint.x, startGridPoint.y] = null;
         pieces[gridPoint.x, gridPoint.y] = null;
+
+        CheckAllMoves();
 
         SetPiecePosition(piece, gridPoint);
 
@@ -183,23 +202,54 @@ public class GameManager : MonoBehaviour
         NextPlayer();
     }
 
+    //public Vector2Int GridForPiece(GameObject piece)
+    //{
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        for (int j = 0; j < 8; j++)
+    //        {
+    //            if (pieces[i, j] == piece)
+    //            {
+    //                return new Vector2Int(i, j);
+    //            }
+    //        }
+    //    }
+    //    return new Vector2Int(-1, -1);
+    //}
+
     public void NextPlayer() {
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
     }
 
-
-    public void CapturePieceAt(Vector2Int gridPoint) {
+    public void CapturePieceAt(Vector2Int gridPoint)
+    {
         GameObject pieceToCapture = PieceAtGrid(gridPoint);
 
-        if (pieceToCapture.GetComponent<Piece>().type == PieceType.King) {
-            Debug.Log(currentPlayer.name + " wins!");
-            Destroy(board.GetComponent<TileSelector>());
-            Destroy(board.GetComponent<MoveSelector>());
+        Vector3 spawnPos;
+
+        if (otherPlayer.capturedPieces.Count > 0)
+        {
+            GameObject latestCapturedPiece = otherPlayer.capturedPieces[otherPlayer.capturedPieces.Count - 1];
+            spawnPos = latestCapturedPiece.transform.position;
+            spawnPos.x += 5.0f;
         }
+        else
+        {
+            GameObject capturedPieces = currentPlayer.isWhite ? capturedPiecesBlack : capturedPiecesWhite;
+            spawnPos = capturedPieces.transform.position;
+        }
+
+        pieceToCapture.transform.position = spawnPos;
+
+        //if (pieceToCapture.GetComponent<Piece>().type == PieceType.King) {
+        //    Debug.Log(currentPlayer.name + " wins!");
+        //    Destroy(board.GetComponent<TileSelector>());
+        //    Destroy(board.GetComponent<MoveSelector>());
+        //}
         currentPlayer.capturedPieces.Add(pieceToCapture);
         pieces[gridPoint.x, gridPoint.y] = null;
-        Destroy(pieceToCapture);
+        //Destroy(pieceToCapture);
     }
 }

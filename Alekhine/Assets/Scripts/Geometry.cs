@@ -5,19 +5,16 @@ public class Geometry : MonoBehaviour
     public float separation;
     public float startingPoint;
 
-    static public Transform FindBoard()
+    public Board board;
+
+    public GameObject FindSquare(Vector2Int location)
     {
-        return GameObject.Find("Chessboard").transform;
+        return board.gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
     }
 
-    static public GameObject FindSquare(Vector2Int location)
+    public Vector3 PointFromGrid(Vector2Int gridPoint)
     {
-        return FindBoard().transform.GetChild(location.y).GetChild(location.x).gameObject;
-    }
-
-    static public Vector3 PointFromGrid(Vector2Int gridPoint)
-    {
-        Vector3 boardPosition = FindBoard().position;
+        Vector3 boardPosition = board.gameObject.transform.position;
         float x = -3.5f + boardPosition.x + gridPoint.x;
         float z = -3.5f + boardPosition.z + gridPoint.y;
 
@@ -29,9 +26,9 @@ public class Geometry : MonoBehaviour
         return new Vector2Int(col, row);
     }
 
-    static public Vector2Int GridFromPoint(Vector3 point)
+    public Vector2Int GridFromPoint(Vector3 point)
     {
-        Vector3 boardPosition = FindBoard().position;
+        Vector3 boardPosition = board.gameObject.transform.position;
 
         int col = Mathf.FloorToInt(-6.0f + boardPosition.x + point.x);
         int row = Mathf.FloorToInt(6.0f + boardPosition.z + point.z);

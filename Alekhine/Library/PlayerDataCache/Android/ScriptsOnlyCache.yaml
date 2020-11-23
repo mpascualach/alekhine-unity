@@ -24,10 +24,10 @@ ScriptsOnlyBuild:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.XR.Interaction.Toolkit.dll:
     - UnityEngine.XR.Interaction.Toolkit.ActionBasedController
+    - UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager
+    - UnityEngine.XR.Interaction.Toolkit.XRDirectInteractor
     - UnityEngine.XR.Interaction.Toolkit.XRGrabInteractable
     - UnityEngine.XR.Interaction.Toolkit.XRInteractionManager
-    - UnityEngine.XR.Interaction.Toolkit.XRInteractorLineVisual
-    - UnityEngine.XR.Interaction.Toolkit.XRRayInteractor
     - UnityEngine.XR.Interaction.Toolkit.XRRig
     Unity.XR.Management.Editor.dll:
     - UnityEditor.XR.Management.XRGeneralSettingsPerBuildTarget
@@ -37,6 +37,15 @@ ScriptsOnlyBuild:
     Unity.XR.Oculus.dll:
     - Unity.XR.Oculus.OculusLoader
     - Unity.XR.Oculus.OculusSettings
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateMachineInspector
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -95,6 +104,10 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13244}
     - Class: 114
+      Script: {instanceID: 13754}
+    - Class: 114
+      Script: {instanceID: 13776}
+    - Class: 114
       Script: {instanceID: 13846}
     - Class: 114
       Script: {instanceID: 14078}
@@ -115,22 +128,20 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14608}
     - Class: 114
-      Script: {instanceID: 14848}
-    - Class: 114
       Script: {instanceID: 14936}
-    - Class: 114
-      Script: {instanceID: 14942}
     - Class: 114
       Script: {instanceID: 15014}
     - Class: 114
-      Script: {instanceID: 20202}
+      Script: {instanceID: 64392}
     - Class: 114
-      Script: {instanceID: 20204}
+      Script: {instanceID: 64394}
     - Class: 115
       Script: {instanceID: 0}
-    - Class: 120
+    - Class: 135
       Script: {instanceID: 0}
     - Class: 136
+      Script: {instanceID: 0}
+    - Class: 137
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -159,7 +170,7 @@ ScriptsOnlyBuild:
     className: CameraRotator
   - hash:
       serializedVersion: 2
-      Hash: 6e5adbb62c2884ad4abf2b3983283442
+      Hash: 6c61bd72100d68e13dac3780fcdfe4d2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
