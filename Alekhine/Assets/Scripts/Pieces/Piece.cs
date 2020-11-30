@@ -39,6 +39,7 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData pointerEventData) {
+        Debug.Log(position);
         SelectPiece();
         // only own pieces
         // disable other controller

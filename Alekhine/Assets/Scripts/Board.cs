@@ -16,9 +16,10 @@ public class Board : MonoBehaviour {
         Vector3 position = transform.GetChild(row).transform.GetChild(col).transform.position;
         position.y += (float)0.02;
 
+
         int orientation = player.isWhite ? 90 : -90;
         GameObject newPiece = Instantiate(piece, position, Quaternion.Euler(-90, orientation, 0), gameObject.transform);
-        return piece;
+        return newPiece;
     }
 
     public void SelectPiece(GameObject piece)

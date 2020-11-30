@@ -52,36 +52,35 @@ public class GameManager : MonoBehaviour
     }
 
     private void SetBoardUp() {
-        //AddPiece(whiteRook, white, 0, 0);
-        //AddPiece(whiteKnight, white, 1, 0);
-        //AddPiece(whiteBishop, white, 2, 0);
-        //AddPiece(whiteQueen, white, 3, 0);
+        AddPiece(whiteRook, white, 0, 0);
+        AddPiece(whiteKnight, white, 1, 0);
+        AddPiece(whiteBishop, white, 2, 0);
+        AddPiece(whiteQueen, white, 3, 0);
         AddPiece(whiteKing, white, 4, 0);
-        //AddPiece(whiteBishop, white, 5, 0);
-        //AddPiece(whiteKnight, white, 6, 0);
-        //AddPiece(whiteRook, white, 7, 0);
+        AddPiece(whiteBishop, white, 5, 0);
+        AddPiece(whiteKnight, white, 6, 0);
+        AddPiece(whiteRook, white, 7, 0);
 
-        //for (int i = 0; i < 8; i++)
-        //{
-        //    AddPiece(whitePawn, white, i, 1);
-        //}
+        for (int i = 0; i < 8; i++)
+        {
+            AddPiece(whitePawn, white, i, 1);
+        }
 
-        //AddPiece(blackRook, black, 0, 7);
-        //AddPiece(blackKnight, black, 1, 7);
-        //AddPiece(blackBishop, black, 2, 7);
-        //AddPiece(blackQueen, black, 3, 7);
-        AddPiece(blackQueen, black, 4, 7);
-        //AddPiece(blackKing, black, 4, 7);
-        //AddPiece(blackBishop, black, 5, 7);
-        //AddPiece(blackKnight, black, 6, 7);
-        //AddPiece(blackRook, black, 7, 7);
+        AddPiece(blackRook, black, 0, 7);
+        AddPiece(blackKnight, black, 1, 7);
+        AddPiece(blackBishop, black, 2, 7);
+        AddPiece(blackQueen, black, 3, 7);
+        AddPiece(blackKing, black, 4, 7);
+        AddPiece(blackBishop, black, 5, 7);
+        AddPiece(blackKnight, black, 6, 7);
+        AddPiece(blackRook, black, 7, 7);
 
-        //for (int i = 0; i < 8; i++)
-        //{
-        //    AddPiece(blackPawn, black, i, 6);
-        //}
+        for (int i = 0; i < 8; i++)
+        {
+            AddPiece(blackPawn, black, i, 6);
+        }
 
-        // CheckAllMoves(currentPlayer, otherPlayer);
+        CheckAllMoves();
         CheckPlayerMoves(otherPlayer, true);
     }
 
@@ -106,7 +105,7 @@ public class GameManager : MonoBehaviour
         pieceObject.GetComponent<Piece>().position = gridPoint;
     }
 
-    private void CheckAllMoves()
+    private void CheckAllMoves() // scale this maybe for more than 1 player?
     {
         currentPlayer.inCheck = false;
         otherPlayer.inCheck = false;

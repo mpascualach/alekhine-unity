@@ -7,15 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1290396349617307556, guid: cce66a779eb9c43e590950d01e324134,
-        type: 3}
-      propertyPath: m_Name
-      value: Windowpane
-      objectReference: {fileID: 0}
     - target: {fileID: 3568769633158341196, guid: cce66a779eb9c43e590950d01e324134,
         type: 3}
       propertyPath: m_Name
       value: Wall with Window
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.52119
       objectReference: {fileID: 0}
     - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
         type: 3}
@@ -30,7 +35,12 @@ PrefabInstance:
     - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 92.3572
+      value: 82.889
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
         type: 3}
@@ -45,16 +55,6 @@ PrefabInstance:
     - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4080695467101017215, guid: cce66a779eb9c43e590950d01e324134,
