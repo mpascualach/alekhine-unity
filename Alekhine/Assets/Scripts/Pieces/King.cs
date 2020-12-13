@@ -42,7 +42,7 @@ public class King : Piece
         {
             Vector2Int nextGridPoint = new Vector2Int(position.x + dir.x, position.y + dir.y);
             locations.Add(nextGridPoint);
-            if (GameManager.instance.PieceAtGrid(nextGridPoint))
+            if (GameHandler.instance.PieceAtGrid(nextGridPoint))
             {
                 break;
             }
@@ -52,7 +52,7 @@ public class King : Piece
         {
             Vector2Int nextGridPoint = new Vector2Int(position.x + dir.x, position.y + dir.y);
             locations.Add(nextGridPoint);
-            if (GameManager.instance.PieceAtGrid(nextGridPoint))
+            if (GameHandler.instance.PieceAtGrid(nextGridPoint))
             {
                 break;
             }

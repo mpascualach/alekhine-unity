@@ -13,9 +13,9 @@ public class Queen : Piece
             {
                 Vector2Int nextGridPoint = new Vector2Int(position.x + i * dir.x, position.y + i * dir.y);
                 locations.Add(nextGridPoint);
-                if (GameManager.instance.PieceAtGrid(nextGridPoint))
+                if (GameHandler.instance.PieceAtGrid(nextGridPoint))
                 {
-                    Piece otherPiece = GameManager.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
+                    Piece otherPiece = GameHandler.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
                     if (otherPiece.type == PieceType.King && otherPiece.player.name != player.name)
                     {
                         otherPiece.player.inCheck = true;
@@ -31,9 +31,9 @@ public class Queen : Piece
             {
                 Vector2Int nextGridPoint = new Vector2Int(position.x + i * dir.x, position.y + i * dir.y);
                 locations.Add(nextGridPoint);
-                if (GameManager.instance.PieceAtGrid(nextGridPoint))
+                if (GameHandler.instance.PieceAtGrid(nextGridPoint))
                 {
-                    Piece otherPiece = GameManager.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
+                    Piece otherPiece = GameHandler.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
                     if (otherPiece.type == PieceType.King && otherPiece.player.isWhite != player.isWhite)
                     {
                         otherPiece.player.inCheck = true;

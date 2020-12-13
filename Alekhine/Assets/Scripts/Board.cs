@@ -24,7 +24,7 @@ public class Board : MonoBehaviour {
 
     public void SelectPiece(GameObject piece)
     {
-        //if (GameManager.instance.DoesPieceBelongToCurrentPlayer(piece))
+        //if (GameHandler.instance.DoesPieceBelongToCurrentPlayer(piece))
         //{
         if (selectedPiece) DeselectPiece(selectedPiece);
 
@@ -38,7 +38,7 @@ public class Board : MonoBehaviour {
         //}
         //else if (selectedPiece)
         //{
-        //    List<Vector2Int> moveLocations = GameManager.instance.MovesForPiece(selectedPiece);
+        //    List<Vector2Int> moveLocations = GameHandler.instance.MovesForPiece(selectedPiece);
         //    Piece pieceScript = piece.GetComponent<Piece>();
 
         //    Vector2Int piecePosition = pieceScript.position;
@@ -46,7 +46,7 @@ public class Board : MonoBehaviour {
         //    if (moveLocations.Contains(piecePosition))
         //    {
         //        GameObject square = Geometry.FindSquare(piecePosition);
-        //        GameManager.instance.Move(selectedPiece, square.transform.position, pieceScript.position);
+        //        GameHandler.instance.Move(selectedPiece, square.transform.position, pieceScript.position);
         //    }
         //}
     }
@@ -65,7 +65,7 @@ public class Board : MonoBehaviour {
     {
         MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
 
-        renderers.material = GameManager.instance.currentPlayer.isWhite ? defaultMaterialWhite : defaultMaterialBlack;
+        renderers.material = GameHandler.instance.currentPlayer.isWhite ? defaultMaterialWhite : defaultMaterialBlack;
 
         selector = GetComponent<MoveSelector>();
         selector.ExitState();

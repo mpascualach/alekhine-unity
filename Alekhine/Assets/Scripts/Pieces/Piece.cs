@@ -50,12 +50,12 @@ public abstract class Piece : MonoBehaviour, IPointerClickHandler
     }
 
     private void SelectPiece() {
-        GameManager.instance.SelectPiece(gameObject);
+        GameHandler.instance.SelectPiece(gameObject);
     }
 
     private void DeselectPiece()
     {
-        GameManager.instance.DeselectPiece(gameObject);
+        GameHandler.instance.DeselectPiece(gameObject);
         // check if move is legal
     }
 }

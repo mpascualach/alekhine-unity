@@ -21,7 +21,7 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
         movingPiece = piece;
         this.enabled = true;
 
-        moveLocations = GameManager.instance.MovesForPiece(movingPiece);
+        moveLocations = GameHandler.instance.MovesForPiece(movingPiece);
 
         HighlightSquares(moveLocations, true);
     }
@@ -32,7 +32,7 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
             GameObject square = gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
 
             Material locationType = highlighting ?
-                        GameManager.instance.PieceAtGrid(location) ?
+                        GameHandler.instance.PieceAtGrid(location) ?
                         attackLocationMaterial :
                         moveLocationMaterial :
                     square.GetComponent<Renderer>().materials[0];
@@ -65,7 +65,7 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
 
     public void ExecuteMove(GameObject element, Vector2Int gridPoint) {
         if (moveLocations.Contains(gridPoint)) {
-            GameManager.instance.Move(movingPiece, element.transform.position, gridPoint);
+            GameHandler.instance.Move(movingPiece, element.transform.position, gridPoint);
         }
     }
 
