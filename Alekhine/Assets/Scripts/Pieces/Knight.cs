@@ -7,8 +7,6 @@ public class Knight : Piece
     {
         List<Vector2Int> knightMoves = new List<Vector2Int>();
 
-        Debug.Log(gridPoint);
-
         foreach(var move in KnightDirections) {
             Vector2Int knightMove = new Vector2Int(gridPoint.x + move.x, gridPoint.y + move.y);
             knightMoves.Add(knightMove);

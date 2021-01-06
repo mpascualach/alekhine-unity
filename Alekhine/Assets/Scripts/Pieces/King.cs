@@ -7,27 +7,7 @@ public class King : Piece
 
     private Animator m_animator;
 
-    public bool inCheck
-    {
-        get
-        {
-            return _inCheck;
-        }
-        set
-        {
-            if (_inCheck == value) return;
-            _inCheck = value;
-
-            m_animator = gameObject.GetComponent<Animator>();
-
-            m_animator.SetBool("inCheck", value);
-
-            //if (m_animator.isActiveAndEnabled)
-            //{
-
-            //}
-        }
-    }
+    public bool inCheck;
 
     private void Start()
     {
@@ -42,19 +22,32 @@ public class King : Piece
         {
             Vector2Int nextGridPoint = new Vector2Int(position.x + dir.x, position.y + dir.y);
             locations.Add(nextGridPoint);
-            if (GameHandler.instance.PieceAtGrid(nextGridPoint))
-            {
-                break;
-            }
         }
+
+        Piece kingsideRook = GameHandler.instance.FindRook(7, player);
+        Piece queensideRook = GameHandler.instance.FindRook(0, player);
 
         foreach (Vector2Int dir in RookDirections)
         {
             Vector2Int nextGridPoint = new Vector2Int(position.x + dir.x, position.y + dir.y);
             locations.Add(nextGridPoint);
-            if (GameHandler.instance.PieceAtGrid(nextGridPoint))
+        }
+
+        if (kingsideRook && !kingsideRook.developed && !developed)
+        {
+            bool allowed = true;
+            if (allowed)
             {
-                break;
+                locations.Add(new Vector2Int(6, position.y));
+            }
+        }
+
+        if (queensideRook && !kingsideRook.developed && !developed)
+        {
+            bool allowed = true;
+            if (allowed)
+            {
+                locations.Add(new Vector2Int(2, position.y));
             }
         }
 

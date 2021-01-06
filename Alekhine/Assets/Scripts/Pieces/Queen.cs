@@ -15,11 +15,6 @@ public class Queen : Piece
                 locations.Add(nextGridPoint);
                 if (GameHandler.instance.PieceAtGrid(nextGridPoint))
                 {
-                    Piece otherPiece = GameHandler.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
-                    if (otherPiece.type == PieceType.King && otherPiece.player.name != player.name)
-                    {
-                        otherPiece.player.inCheck = true;
-                    }
                     break;
                 }
             }
@@ -33,11 +28,6 @@ public class Queen : Piece
                 locations.Add(nextGridPoint);
                 if (GameHandler.instance.PieceAtGrid(nextGridPoint))
                 {
-                    Piece otherPiece = GameHandler.instance.PieceAtGrid(nextGridPoint).GetComponent<Piece>();
-                    if (otherPiece.type == PieceType.King && otherPiece.player.isWhite != player.isWhite)
-                    {
-                        otherPiece.player.inCheck = true;
-                    }
                     break;
                 }
             }

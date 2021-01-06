@@ -2,6 +2,7 @@
 using UnityEngine;
 
 public class Board : MonoBehaviour {
+    public static Board instance;
 
     public Material defaultMaterialWhite;
     public Material defaultMaterialBlack;
@@ -11,64 +12,62 @@ public class Board : MonoBehaviour {
 
     MoveSelector selector;
 
-    public GameObject AddPiece(GameObject piece, Player player, int col, int row)
-    {
-        Vector3 position = transform.GetChild(row).transform.GetChild(col).transform.position;
-        position.y += (float)0.02;
+    private void Awake() {
+        instance = this;
+    }
 
+    public GameObject AddPiece(GameObject piece, Player player, int row, int col) {
+        GameObject square = transform.GetChild(row).transform.GetChild(col).gameObject;
+        Vector3 position = square.transform.position;
+        position.y += (float)0.02;
 
         int orientation = player.isWhite ? 90 : -90;
         GameObject newPiece = Instantiate(piece, position, Quaternion.Euler(-90, orientation, 0), gameObject.transform);
+
+        Square squareScript = square.GetComponent<Square>();
+        squareScript.attachedPiece = newPiece;
+
         return newPiece;
     }
 
-    public void SelectPiece(GameObject piece)
-    {
-        //if (GameHandler.instance.DoesPieceBelongToCurrentPlayer(piece))
-        //{
-        if (selectedPiece) DeselectPiece(selectedPiece);
-
-        MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
-        renderers.material = selectedMaterial;
-        selectedPiece = piece;
+    public void SelectPiece(GameObject piece) {
+        CheckForSelectedPiece();
 
         selector = GetComponent<MoveSelector>();
         selector.EnterState(piece);
 
-        //}
-        //else if (selectedPiece)
-        //{
-        //    List<Vector2Int> moveLocations = GameHandler.instance.MovesForPiece(selectedPiece);
-        //    Piece pieceScript = piece.GetComponent<Piece>();
-
-        //    Vector2Int piecePosition = pieceScript.position;
-
-        //    if (moveLocations.Contains(piecePosition))
-        //    {
-        //        GameObject square = Geometry.FindSquare(piecePosition);
-        //        GameHandler.instance.Move(selectedPiece, square.transform.position, pieceScript.position);
-        //    }
-        //}
+        selectedPiece = piece;
     }
 
-    public void MovePiece(GameObject piece, Vector3 position)
-    {
+    public void CheckForSelectedPiece(){
+        if (selectedPiece != null) {
+            Piece selectedPieceScript = selectedPiece.GetComponent<Piece>();
+            selectedPieceScript.UndoSelectionEffect();
+            DeselectPiece(selectedPiece);
+        }
+    }
+
+    public void MovePiece(GameObject piece, Vector3 position) {
         piece.transform.position = position;
 
         Piece pieceObject = piece.GetComponent<Piece>();
-        pieceObject.moved = true;
+
+        if (pieceObject.developed == false) {
+            pieceObject.developed = true;
+        }
 
         DeselectPiece(piece);
     }
 
-    public void DeselectPiece(GameObject piece)
-    {
-        MeshRenderer renderers = piece.GetComponentInChildren<MeshRenderer>();
-
-        renderers.material = GameHandler.instance.currentPlayer.isWhite ? defaultMaterialWhite : defaultMaterialBlack;
+    public void DeselectPiece(GameObject piece) {
+        Piece pieceScript = piece.GetComponent<Piece>();
+        pieceScript.UndoSelectionEffect();
 
         selector = GetComponent<MoveSelector>();
-        selector.ExitState();
+
+        if (selector.enabled) {
+            selector.ExitState();
+        }
 
         selectedPiece = null;
     }

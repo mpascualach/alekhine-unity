@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9142409752621427666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9142409752621427668}
+  - component: {fileID: 9142409752621427667}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9142409752621427668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9142409752621427666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.97752, y: -0.2511177, z: -21.60254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9142409752621427667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9142409752621427666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943c5a277fc8d4c159a73fde228fc533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 0}
+  whiteKing: {fileID: 4975405245335526992, guid: 9074e30901e08426abdb6f7e69f08ebd,
+    type: 3}
+  whiteQueen: {fileID: 9150350981426221490, guid: 3d70300a53b254800beb898e43f598c2,
+    type: 3}
+  whiteBishop: {fileID: 575685355346063147, guid: c3f68c16a3cfd4c76944820f213ffa47,
+    type: 3}
+  whiteKnight: {fileID: 2784901030467522377, guid: 8ccd0281513ee427bb41442c32558d21,
+    type: 3}
+  whiteRook: {fileID: 1745151215382903323, guid: fef49e9301de94a3d89477a316d319e9,
+    type: 3}
+  whitePawn: {fileID: 5528974103191247100, guid: ebb4e6cbfc210444493de0a2e6d33e5d,
+    type: 3}
+  blackKing: {fileID: 2828467125646972288, guid: 57db4e7de308d409e95fe4c328ac5b0d,
+    type: 3}
+  blackQueen: {fileID: 3307850552918205262, guid: 6faf0999d486f400dbcf4e873e135901,
+    type: 3}
+  blackBishop: {fileID: 2610626284895493218, guid: 43897a833f1c242d3b6c7450a2df9451,
+    type: 3}
+  blackKnight: {fileID: 74611161578403333, guid: 2e0cdca94936446f18a2d99210984dc1,
+    type: 3}
+  blackRook: {fileID: 218075955363958816, guid: b1908fa6678b947598d829bed975ba41,
+    type: 3}
+  blackPawn: {fileID: 4438605600742697527, guid: 4c62db32dd34346a4b7004e08b8351a1,
+    type: 3}
+  capturedPiecesWhite: {fileID: 0}
+  capturedPiecesBlack: {fileID: 0}
+  againstComputer: 1
+  playerIsWhite: 0
+  opponent: {fileID: 0}

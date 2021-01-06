@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7660386484886693551}
   - component: {fileID: 4411268659966516837}
   - component: {fileID: -4967246326583189116}
-  - component: {fileID: 1904062839761940891}
+  - component: {fileID: 5053978215394593058}
   m_Layer: 0
   m_Name: KingWhite
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 4975405245335526992}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
-  m_LocalScale: {x: 150, y: 150, z: 230}
+  m_LocalScale: {x: 120, y: 120, z: 120}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -127,9 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad4419d682374d0cbb0a1eb6d1994f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   type: 0
-  position: {x: 4, y: 0}
+  startingPosition: {x: 0, y: 0}
+  developed: 0
   moved: 0
+  inCheck: 0
 --- !u!114 &-4967246326583189116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +210,7 @@ MonoBehaviour:
   m_ThrowAngularVelocityScale: 1
   m_GravityOnDetach: 0
   m_RetainTransformParent: 1
---- !u!95 &1904062839761940891
+--- !u!95 &5053978215394593058
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -217,7 +220,7 @@ Animator:
   m_GameObject: {fileID: 4975405245335526992}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f1f12c7b19274101bab748f3591829a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MoveSelector : MonoBehaviour, IPointerClickHandler
+public class MoveSelector : MonoBehaviour
 {
     public Material moveLocationMaterial;
     public Material attackLocationMaterial;
@@ -13,31 +13,28 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
 
     private List<Vector2Int> moveLocations = new List<Vector2Int>();
 
-    void Start() {
-        this.enabled = false;
-    }
-
     public void EnterState(GameObject piece) {
-        movingPiece = piece;
         this.enabled = true;
 
+        movingPiece = piece;
         moveLocations = GameHandler.instance.MovesForPiece(movingPiece);
 
-        HighlightSquares(moveLocations, true);
+        HighlightSquares(moveLocations);
     }
 
-    public void HighlightSquares(List<Vector2Int> locations, bool highlighting) {
+    public void HighlightSquares(List<Vector2Int> locations) {
         foreach (Vector2Int location in locations)
         {
             GameObject square = gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
+            Square squareScript = square.GetComponent<Square>();
 
-            Material locationType = highlighting ?
-                        GameHandler.instance.PieceAtGrid(location) ?
-                        attackLocationMaterial :
-                        moveLocationMaterial :
-                    square.GetComponent<Renderer>().materials[0];
-
-            ManageMaterials(square, locationType);
+            if (GameHandler.instance.PieceAtGrid(location))
+            {
+                squareScript.TriggerAttackEffect();
+            } else
+            {
+                squareScript.TriggerMoveEffect();
+            }
         }
     }
 
@@ -48,34 +45,22 @@ public class MoveSelector : MonoBehaviour, IPointerClickHandler
         square.GetComponent<MeshRenderer>().materials = materials;
     }
 
-
-    public void OnPointerClick(PointerEventData pointerEventData)
-    {
-        foreach(GameObject element in pointerEventData.hovered) {
-            if (element.tag == "Square") {
-                int squareIndex = element.transform.GetSiblingIndex();
-                int rowIndex = element.transform.parent.transform.GetSiblingIndex();
-
-                Vector2Int coordinate = new Vector2Int(squareIndex, rowIndex);
-
-                ExecuteMove(element, coordinate);
-            }
-        }
-    }
-
-    public void ExecuteMove(GameObject element, Vector2Int gridPoint) {
-        if (moveLocations.Contains(gridPoint)) {
-            GameHandler.instance.Move(movingPiece, element.transform.position, gridPoint);
-        }
-    }
-
     public void ExitState() {
         this.enabled = false;
 
         foreach (Vector2Int location in moveLocations)
         {
             GameObject square = gameObject.transform.GetChild(location.y).GetChild(location.x).gameObject;
-            ManageMaterials(square, square.GetComponent<Renderer>().materials[0]);
+            Square squareScript = square.GetComponent<Square>();
+
+            if (GameHandler.instance.PieceAtGrid(location))
+            {
+                squareScript.UndoAttackEffect();
+            }
+            else
+            {
+                squareScript.UndoMoveEffect();
+            }
         }
     }
 

@@ -16,7 +16,7 @@ public class Pawn : Piece
 
         Vector2Int doubleForward = new Vector2Int(gridPoint.x, gridPoint.y + (forwardDirection * 2)); ;
 
-        if (!this.moved && !GameHandler.instance.PieceAtGrid(doubleForward)) {
+        if (!this.developed && !GameHandler.instance.PieceAtGrid(doubleForward)) {
             locations.Add(doubleForward);
         }
 
